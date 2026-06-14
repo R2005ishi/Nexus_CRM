@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: nexus-crm-backend
+    env: node
+    rootDir: backend
+    buildCommand: npm install && npx prisma generate && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false        # Set this in Render dashboard
+      - key: DIRECT_URL
+        sync: false        # Set this in Render dashboard
+      - key: GROQ_API_KEY
+        sync: false        # Set this in Render dashboard
+      - key: INTERNAL_BASE_URL
+        sync: false        # Set to your Render service URL
