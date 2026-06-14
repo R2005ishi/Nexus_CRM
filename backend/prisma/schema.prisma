@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ─── Enums ───────────────────────────────────────────────────────────────────
+
+enum CampaignStatus {
+  DRAFT
+  SENDING
+  COMPLETED
+}
+
+enum LogStatus {
+  QUEUED
+  SENT
+  DELIVERED
+  FAILED
+  OPENED
+  READ
+  CLICKED
+  CONVERTED
+}
+
+// ─── Models ──────────────────────────────────────────────────────────────────
+
+model Customer {
+  id           String        @id @default(uuid())
+  firstName    String
+  lastName     String
+  email        String        @unique
+  phone        String?
+  metadata     Json          @default("{}")
+  createdAt    DateTime      @default(now())
+  orders       Order[]
+  deliveryLogs DeliveryLog[]
+
+  @@index([email])
+}
+
+model Order {
+  id          String   @id @default(uuid())
+  customer    Customer @relation(fields: [customerId], references: [id])
+  customerId  String
+  totalAmount Decimal  @db.Decimal(12, 2)
+  items       Json
+  createdAt   DateTime @default(now())
+
+  @@index([customerId])
+}
+
+model Campaign {
+  id              String         @id @default(uuid())
+  goalDescription String
+  targetChannel   String
+  status          CampaignStatus @default(DRAFT)
+  createdAt       DateTime       @default(now())
+  deliveryLogs    DeliveryLog[]
+}
+
+model DeliveryLog {
+  id         String    @id @default(uuid())
+  campaign   Campaign  @relation(fields: [campaignId], references: [id])
+  campaignId String
+  customer   Customer  @relation(fields: [customerId], references: [id])
+  customerId String
+  channel    String
+  status     LogStatus @default(QUEUED)
+  updatedAt  DateTime  @updatedAt
+
+  @@index([campaignId])
+  @@index([customerId, status, updatedAt])
+}

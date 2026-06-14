@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Nexus CRM | Data Manager</title>
+    <meta name="description" content="Nexus CRM Enterprise Edition - Manage audiences, search database records, and segment target cohorts." />
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <!-- Tailwind and Lucide -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-size: 22px;
+        }
+        /* Custom scrollbar for premium look */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.3);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(156, 163, 175, 0.5);
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-bright": "#f8fafc",
+                        "surface-container-highest": "#e2e8f0",
+                        "tertiary": "#a855f7",
+                        "surface": "#f8fafc",
+                        "tertiary-fixed-dim": "#f3e8ff",
+                        "outline-variant": "#cbd5e1",
+                        "surface-container": "#f1f5f9",
+                        "primary-container": "#0f172a",
+                        "primary": "#0f172a",
+                        "surface-dim": "#e2e8f0",
+                        "on-secondary-fixed-variant": "#3730a3",
+                        "on-tertiary-fixed-variant": "#6b21a8",
+                        "surface-container-low": "#f8fafc",
+                        "tertiary-container": "#581c87",
+                        "secondary-container": "#e0e7ff",
+                        "on-error-container": "#991b1b",
+                        "background": "#f8fafc",
+                        "secondary-fixed": "#e0e7ff",
+                        "inverse-surface": "#0f172a",
+                        "outline": "#64748b",
+                        "on-primary-fixed-variant": "#1e293b",
+                        "error": "#ef4444",
+                        "on-background": "#0f172a",
+                        "surface-tint": "#6366f1",
+                        "on-surface-variant": "#475569",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#faf5ff",
+                        "primary-fixed": "#f1f5f9",
+                        "primary-fixed-dim": "#cbd5e1",
+                        "on-secondary-container": "#312e81",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#f1f5f9",
+                        "secondary": "#4f46e5",
+                        "on-primary-container": "#1e293b",
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#0f172a",
+                        "surface-container-high": "#e2e8f0",
+                        "inverse-on-surface": "#f8fafc",
+                        "inverse-primary": "#c7d2fe",
+                        "secondary-fixed-dim": "#c7d2fe",
+                        "on-tertiary-container": "#d8b4fe",
+                        "on-tertiary-fixed": "#581c87",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed": "#312e81",
+                        "on-error": "#ffffff",
+                        "error-container": "#fee2e2",
+                        "on-primary-fixed": "#0f172a"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "container-max": "1440px",
+                        "sidebar-width": "260px",
+                        "margin-desktop": "32px",
+                        "gutter": "24px",
+                        "stack-lg": "24px",
+                        "stack-md": "16px",
+                        "margin-mobile": "16px",
+                        "stack-sm": "8px"
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background dark:bg-slate-950 text-on-background dark:text-slate-100 font-sans overflow-hidden transition-colors duration-300">
+<div class="flex h-screen w-full">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="w-[260px] h-screen sticky left-0 top-0 border-r border-outline-variant dark:border-slate-800 bg-surface-container-lowest dark:bg-slate-900 flex flex-col py-6 transition-all duration-300 z-50" id="sidebar">
+        <div class="px-6 mb-8 flex items-center justify-between">
+            <div>
+                <h1 class="text-xl font-extrabold tracking-tight text-primary dark:text-white flex items-center gap-2">
+                    <span class="material-symbols-outlined text-indigo-600 dark:text-indigo-400 font-bold" style="font-variation-settings: 'FILL' 1;">dataset</span>
+                    Nexus CRM
+                </h1>
+                <p class="text-on-surface-variant dark:text-slate-400 text-xs">Enterprise AI Edition</p>
+            </div>
+        </div>
+        
+        <nav class="flex-1 px-4 space-y-1">
+            <a href="index.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-800 transition-all font-medium text-sm text-left">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span>Command Center</span>
+            </a>
+            <a href="data_manager.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-secondary dark:text-indigo-400 border-l-4 border-secondary dark:border-indigo-400 bg-secondary-fixed/30 dark:bg-indigo-950/40 transition-all font-medium text-sm text-left">
+                <span class="material-symbols-outlined">database</span>
+                <span>Data Manager</span>
+            </a>
+            <a href="analytics.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-800 transition-all font-medium text-sm text-left">
+                <span class="material-symbols-outlined">analytics</span>
+                <span>Analytics</span>
+            </a>
+        </nav>
+        
+        <div class="mt-auto px-4 space-y-4">
+            <!-- Quick System Info -->
+            <div class="p-3 rounded-lg bg-surface-container dark:bg-slate-800/50 border border-outline-variant/30 dark:border-slate-800 text-xs space-y-1">
+                <div class="flex justify-between text-slate-500 dark:text-slate-400">
+                    <span>System Status:</span>
+                    <span class="text-green-500 dark:text-green-400 font-semibold flex items-center gap-1">
+                        <span class="h-2 w-2 rounded-full bg-green-500 animate-pulse"></span> Optimal
+                    </span>
+                </div>
+                <div class="flex justify-between text-slate-500 dark:text-slate-400">
+                    <span>AI Engine:</span>
+                    <span class="text-purple-500 dark:text-purple-400 font-semibold">Active (v2.4)</span>
+                </div>
+            </div>
+            
+            <!-- User Profile Card -->
+            <div class="flex items-center justify-between p-3 rounded-xl bg-surface-container dark:bg-slate-800 border border-outline-variant/30 dark:border-slate-700">
+                <div class="flex items-center gap-3 min-w-0 flex-1">
+                    <div id="sidebar-avatar-container" class="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center overflow-hidden border border-indigo-200 dark:border-indigo-800 shrink-0">
+                        <img id="sidebar-user-img" alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0F9KokNuSG9A1rg87ekec1ujoS-3AJxGMVjpsdnnEtXyLC3FzLSEyPkGNIJ1nhmYY-JBLvwN55DfUIoOy8QBzMBBoDo-Gu-UAJQN7gXz8taasipek2f-yEvwty5ksuaKD6EtpuH-yRDzx5z7zJAf-CK3ZUINUS2GbbOyMThGBB1Tu_HE1ds_t5EdfajEHvwn83PrVoNw4fWN7WpI4aVUGl3vngbf0rxpGqqqeKx07fqWp8_AHksdNfFc3Bdta6SNLt4UcXPAU6EEC"/>
+                        <span id="sidebar-user-initials" class="text-xs font-bold text-indigo-750 dark:text-indigo-300 uppercase hidden">JD</span>
+                    </div>
+                    <div class="min-w-0">
+                        <p id="sidebar-user-name" class="text-xs font-bold text-primary dark:text-white truncate">Jane Doe</p>
+                        <p id="sidebar-user-email" class="text-[10px] text-outline dark:text-slate-400 truncate">Lead Sales Admin</p>
+                    </div>
+                </div>
+                <button onclick="logoutUser()" class="hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-555 hover:text-red-500 dark:text-slate-400 dark:hover:text-red-400 p-1.5 rounded-lg transition-colors flex items-center justify-center shrink-0" title="Sign Out">
+                    <span class="material-symbols-outlined text-[18px]">logout</span>
+                </button>
+            </div>
+        </div>
+    </aside>
+    
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col min-w-0 bg-surface-bright dark:bg-slate-950 overflow-hidden">
+        
+        <!-- Top Application Bar -->
+        <header class="flex justify-between items-center h-16 px-8 w-full bg-surface-container-lowest dark:bg-slate-900 shadow-sm border-b border-outline-variant dark:border-slate-800 sticky top-0 z-40 transition-all duration-300">
+            <div class="flex items-center gap-4 flex-1">
+                <div class="relative w-96 max-w-full">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline dark:text-slate-400">search</span>
+                    <input id="global-search" class="w-full bg-surface-container dark:bg-slate-800 border-none rounded-full py-2 pl-10 pr-4 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:ring-2 focus:ring-secondary focus:outline-none transition-all" placeholder="Search records in real-time..." type="text" oninput="handleSearch()"/>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <!-- Dark Mode Toggle -->
+                <button onclick="toggleDarkMode()" class="hover:bg-surface-container dark:hover:bg-slate-800 rounded-full p-2 transition-all text-on-surface-variant dark:text-slate-300 flex items-center justify-center" title="Toggle Theme">
+                    <span id="theme-icon" class="material-symbols-outlined">dark_mode</span>
+                </button>
+                
+                <button class="hover:bg-surface-container dark:hover:bg-slate-800 rounded-full p-2 transition-all text-on-surface-variant dark:text-slate-300 flex items-center justify-center relative">
+                    <span class="material-symbols-outlined">notifications</span>
+                    <span class="absolute top-1 right-1 h-2.5 w-2.5 rounded-full bg-red-500 border-2 border-white dark:border-slate-900 animate-pulse"></span>
+                </button>
+                
+                <div class="h-6 w-[1px] bg-outline-variant dark:bg-slate-800 mx-1"></div>
+                <span id="header-view-title" class="font-semibold text-sm text-primary dark:text-white px-2">Data Manager</span>
+            </div>
+        </header>
+        
+        <!-- Scrollable Content Canvas -->
+        <div class="flex-1 overflow-y-auto p-8" id="content-canvas">
+            
+            <!-- VIEW: DATA MANAGER -->
+            <section class="space-y-6 animate-in fade-in duration-300 block">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Data Manager</h2>
+                        <p class="text-slate-500 dark:text-slate-400 text-xs">Manage audiences, search database records, and segment target cohorts.</p>
+                    </div>
+                    <button class="bg-primary dark:bg-indigo-600 hover:opacity-90 text-white px-5 py-2.5 rounded-lg text-xs font-bold flex items-center gap-2 transition-all shadow-sm" onclick="syncActiveData()">
+                        <span class="material-symbols-outlined text-xs">sync</span> Sync Data
+                    </button>
+                </div>
+                
+                <div class="flex flex-col lg:flex-row gap-6 h-full items-start">
+                    
+                    <!-- Segmentation Sidebar Component -->
+                    <aside class="w-full lg:w-72 bg-white dark:bg-slate-900 p-5 rounded-xl border border-outline-variant dark:border-slate-800 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-sm text-slate-800 dark:text-slate-200 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-indigo-600">filter_alt</span> Segmentation Filters
+                            </h3>
+                            <button onclick="resetFilters()" class="text-[10px] text-indigo-600 dark:text-indigo-400 hover:underline font-semibold">Reset</button>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <!-- Behavior Filters -->
+                            <div class="space-y-2">
+                                <p class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Behavioral Activity</p>
+                                <div class="flex flex-col gap-1">
+                                    <label class="text-xs text-slate-600 dark:text-slate-400 font-medium">Last Active</label>
+                                    <select id="filter-recency" class="w-full bg-slate-50 dark:bg-slate-850 border border-outline-variant/50 dark:border-slate-800 rounded-lg py-2 px-3 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none dark:text-slate-300" onchange="applyLocalFilters()">
+                                        <option value="all">Any time</option>
+                                        <option value="recent">Within 2 hours</option>
+                                        <option value="today">Today / 24 hours</option>
+                                        <option value="older">More than 1 day ago</option>
+                                    </select>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <label class="text-xs text-slate-600 dark:text-slate-400 font-medium">Purchase Frequency</label>
+                                    <select id="filter-frequency" class="w-full bg-slate-50 dark:bg-slate-850 border border-outline-variant/50 dark:border-slate-800 rounded-lg py-2 px-3 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none dark:text-slate-300" onchange="applyLocalFilters()">
+                                        <option value="all">All volumes</option>
+                                        <option value="high">High Volume (100+ orders)</option>
+                                        <option value="medium">Mid Volume (50-99 orders)</option>
+                                        <option value="low">Low Volume (under 50 orders)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- Attributes Filters -->
+                            <div class="space-y-2">
+                                <p class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Demographics</p>
+                                <div class="flex flex-col gap-1">
+                                    <label class="text-xs text-slate-600 dark:text-slate-400 font-medium">Loyalty Segment</label>
+                                    <div class="flex flex-wrap gap-1.5 mt-1">
+                                        <button id="badge-gold" onclick="toggleSegmentFilter('Gold')" class="px-2.5 py-1 rounded-full border border-outline-variant dark:border-slate-800 text-[10px] font-medium text-slate-600 dark:text-slate-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 hover:border-indigo-200 dark:hover:border-indigo-900 transition-all">Gold Tier</button>
+                                        <button id="badge-silver" onclick="toggleSegmentFilter('Silver')" class="px-2.5 py-1 rounded-full border border-outline-variant dark:border-slate-800 text-[10px] font-medium text-slate-600 dark:text-slate-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 hover:border-indigo-200 dark:hover:border-indigo-900 transition-all">Silver Tier</button>
+                                        <button id="badge-vip" onclick="toggleSegmentFilter('VIP')" class="px-2.5 py-1 rounded-full border border-outline-variant dark:border-slate-800 text-[10px] font-medium text-slate-600 dark:text-slate-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 hover:border-indigo-200 dark:hover:border-indigo-900 transition-all">VIP Elite</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button onclick="createNewSegment()" class="w-full bg-secondary dark:bg-indigo-600 hover:bg-opacity-90 text-white py-2.5 rounded-lg text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-1.5">
+                            <span class="material-symbols-outlined text-xs">add_circle</span> Save Filter Segment
+                        </button>
+                    </aside>
+                    
+                    <!-- Advanced Tabbed CRM Tables -->
+                    <div class="flex-1 w-full bg-white dark:bg-slate-900 rounded-xl border border-outline-variant dark:border-slate-800 shadow-sm flex flex-col overflow-hidden">
+                        
+                        <!-- Navigation Tabs header -->
+                        <div class="flex flex-wrap items-center justify-between border-b border-outline-variant dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 px-6 py-3">
+                            <div class="flex gap-4">
+                                <button id="tab-shoppers" onclick="setActiveTab('shoppers')" class="py-2 px-1 text-sm font-semibold border-b-2 border-secondary text-secondary dark:text-indigo-400 dark:border-indigo-400 transition-all flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-xs">group</span> Shopper List
+                                </button>
+                                <button id="tab-performers" onclick="setActiveTab('performers')" class="py-2 px-1 text-sm font-semibold border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-all flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-xs">military_tech</span> Top Performers
+                                </button>
+                            </div>
+                            <span id="data-table-count" class="text-xs text-indigo-600 dark:text-indigo-400 font-bold bg-indigo-55/10 dark:bg-indigo-950/20 px-2 py-0.5 rounded">6 Users Loaded</span>
+                        </div>
+                        
+                        <!-- TAB CONTENT 1: SHOPPERS TABLE -->
+                        <div data-tab-content="shoppers" class="active overflow-x-auto min-h-[380px]">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-50 dark:bg-slate-850/50 border-b border-outline-variant dark:border-slate-800">
+                                        <th class="p-4 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Customer Name</th>
+                                        <th class="p-4 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Email Address</th>
+                                        <th class="p-4 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Loyalty Tier</th>
+                                        <th class="p-4 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">LTV Score</th>
+                                        <th class="p-4 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Last Purchase</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="shoppers-body" class="divide-y divide-outline-variant/30 dark:divide-slate-800">
+                                    <!-- Dynamic rows loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- TAB CONTENT 2: ORDER HISTORY TABLE REMOVED -->
+                        
+                        <!-- TAB CONTENT 3: HIGHEST ORDERED PERFORMERS TABLE -->
+                        <div data-tab-content="performers" class="overflow-x-auto min-h-[380px]">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-50 dark:bg-slate-850/50 border-b border-outline-variant dark:border-slate-800">
+                                        <th class="p-4 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Global Rank</th>
+                                        <th class="p-4 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Top Customer</th>
+                                        <th class="p-4 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Total Orders Count</th>
+                                        <th class="p-4 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">LTV Worth</th>
+                                        <th class="p-4 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Loyalty Segment</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="performers-body" class="divide-y divide-outline-variant/30 dark:divide-slate-800">
+                                    <!-- Dynamic top performers data -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+
+<!-- Scripts for Interactivity & Live API Connection -->
+<script src="config.js"></script>
+<script>
+    // Configuration
+    const BACKEND_URL = window.NEXUS_CONFIG?.BACKEND_URL ?? "http://localhost:3001/api/v1";
+
+    // State Stores
+    let currentTab = 'shoppers';
+    let selectedSegments = [];
+    
+    // Fallback static data in case backend is offline
+    let shoppersData = [
+        { id: "1", name: "Sarah Chen", email: "schen@tech.io", tier: "Gold", ltv: 3450, lastActive: "recent" },
+        { id: "2", name: "Alex Rivera", email: "alex.r@example.com", tier: "Silver", ltv: 1240, lastActive: "older" },
+        { id: "3", name: "Jordan Smith", email: "jordan.s@smithcorp.net", tier: "VIP", ltv: 4920, lastActive: "recent" },
+        { id: "4", name: "Maria Garcia", email: "mgarcia@latamdev.com", tier: "Gold", ltv: 850, lastActive: "today" },
+        { id: "5", name: "Liam Wilson", email: "liam@wilsonconsulting.co", tier: "Silver", ltv: 980, lastActive: "older" },
+        { id: "6", name: "Sofia Volkov", email: "svolkov@russiacoffee.com", tier: "VIP", ltv: 5210, lastActive: "recent" }
+    ];
+
+    let ordersData = [
+        { id: "#ORD-9021", value: 129.00, items: 3, date: "Today, 10:45 AM", status: "Paid" },
+        { id: "#ORD-9018", value: 42.50, items: 1, date: "Yesterday, 4:15 PM", status: "Paid" },
+        { id: "#ORD-9012", value: 450.00, items: 8, date: "Oct 24, 2025", status: "Paid" },
+        { id: "#ORD-8995", value: 89.99, items: 2, date: "Oct 20, 2025", status: "Paid" },
+        { id: "#ORD-8980", value: 15.00, items: 1, date: "Oct 15, 2025", status: "Refunded" }
+    ];
+
+    // Dark Mode Toggle logic
+    function toggleDarkMode() {
+        const html = document.documentElement;
+        const icon = document.getElementById("theme-icon");
+        if (html.classList.contains("light")) {
+            html.classList.remove("light");
+            html.classList.add("dark");
+            icon.textContent = "light_mode";
+            localStorage.setItem('theme', 'dark');
+        } else {
+            html.classList.remove("dark");
+            html.classList.add("light");
+            icon.textContent = "dark_mode";
+            localStorage.setItem('theme', 'light');
+        }
+    }
+
+    // Data Manager Tab Switching
+    function setActiveTab(tabName) {
+        currentTab = tabName;
+        
+        // Update Tab headers styling
+        const tabButtons = {
+            shoppers: document.getElementById('tab-shoppers'),
+            performers: document.getElementById('tab-performers')
+        };
+        
+        Object.keys(tabButtons).forEach(key => {
+            const btn = tabButtons[key];
+            if (btn) {
+                if (key === tabName) {
+                    btn.className = "py-2 px-1 text-sm font-semibold border-b-2 border-secondary text-secondary dark:text-indigo-400 dark:border-indigo-400 transition-all flex items-center gap-1";
+                } else {
+                    btn.className = "py-2 px-1 text-sm font-semibold border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-all flex items-center gap-1";
+                }
+            }
+        });
+
+        // Toggle visibility of tables
+        document.querySelectorAll('[data-tab-content]').forEach(content => {
+            content.classList.remove('active');
+            if (content.getAttribute('data-tab-content') === tabName) {
+                content.classList.add('active');
+            }
+        });
+        
+        updateCounters();
+        applyLocalFilters();
+    }
+
+    // Initialize application & load live data from database
+    document.addEventListener("DOMContentLoaded", async () => {
+        // First render fallback data
+        renderTables();
+        updateCounters();
+
+        // Load dynamic theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.remove('light');
+            document.documentElement.classList.add('dark');
+            document.getElementById("theme-icon").textContent = "light_mode";
+        }
+
+        // Load dynamic session state
+        const savedName = localStorage.getItem('crm_user_name');
+        const savedEmail = localStorage.getItem('crm_user_email');
+        
+        if (savedName) {
+            document.getElementById('sidebar-user-name').textContent = savedName;
+            if (savedName.toLowerCase() !== "jane doe") {
+                document.getElementById('sidebar-user-img').classList.add('hidden');
+                const initialsEl = document.getElementById('sidebar-user-initials');
+                initialsEl.classList.remove('hidden');
+                
+                const parts = savedName.trim().split(/\s+/);
+                let initials = "";
+                if (parts.length > 0 && parts[0]) initials += parts[0][0];
+                if (parts.length > 1 && parts[1]) initials += parts[1][0];
+                initialsEl.textContent = initials.substring(0, 2).toUpperCase() || "?";
+                document.getElementById('sidebar-avatar-container').classList.add('bg-gradient-to-br', 'from-indigo-100', 'to-indigo-200', 'dark:from-slate-800', 'dark:to-slate-700');
+            }
+        }
+        if (savedEmail) {
+            document.getElementById('sidebar-user-email').textContent = savedEmail;
+        }
+
+        // Fetch real data from the backend
+        await loadDataFromBackend();
+    });
+
+    // Helper to fetch with timeout to prevent page hang
+    async function fetchWithTimeout(resource, options = {}) {
+        const { timeout = 3000 } = options;
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), timeout);
+        try {
+            const response = await fetch(resource, {
+                ...options,
+                signal: controller.signal
+            });
+            clearTimeout(id);
+            return response;
+        } catch (error) {
+            clearTimeout(id);
+            throw error;
+        }
+    }
+
+    // Fetch live Customers and Orders from Supabase via backend
+    async function loadDataFromBackend(showToast = false) {
+        try {
+            // 1. Fetch Customers
+            const custRes = await fetchWithTimeout(`${BACKEND_URL}/ingest/customers`);
+            if (custRes.ok) {
+                const custData = await custRes.json();
+                if (custData.customers && custData.customers.length > 0) {
+                    shoppersData = custData.customers.map(c => {
+                        const totalSpent = c.orders ? c.orders.reduce((sum, o) => sum + parseFloat(o.totalAmount), 0) : 0;
+                        const daysAgo = Math.floor((Date.now() - new Date(c.createdAt).getTime()) / (24 * 60 * 60 * 1000));
+                        let recency = "older";
+                        if (daysAgo === 0) recency = "today";
+                        
+                        return {
+                          id: c.id,
+                          name: `${c.firstName} ${c.lastName}`,
+                          email: c.email,
+                          tier: (c.metadata && (c.metadata.loyaltyTier || c.metadata.tier)) || "Silver",
+                          ltv: totalSpent,
+                          lastActive: recency
+                        };
+                    });
+                }
+            }
+
+            // 2. Fetch Orders
+            const ordRes = await fetchWithTimeout(`${BACKEND_URL}/ingest/orders`);
+            if (ordRes.ok) {
+                const ordData = await ordRes.json();
+                if (ordData.orders && ordData.orders.length > 0) {
+                    ordersData = ordData.orders.map(o => ({
+                        id: `#ORD-${o.id.slice(0, 4).toUpperCase()}`,
+                        value: parseFloat(o.totalAmount),
+                        items: (o.items && Array.isArray(o.items)) ? o.items.length : 1,
+                        date: new Date(o.createdAt).toLocaleDateString() + ", " + new Date(o.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                        status: "Paid"
+                    }));
+                }
+            }
+
+            renderTables();
+            updateCounters();
+            
+            if (showToast) {
+                showNotification("Database Synchronized Successfully!", "check_circle", "green");
+            }
+        } catch (err) {
+            console.warn("Backend server offline, running in offline demo mode.", err);
+            renderTables();
+            updateCounters();
+        }
+    }
+
+    // Render tables contents dynamically
+    function renderTables(filteredShoppers = null) {
+        const shoppersToRender = filteredShoppers || shoppersData;
+        
+        // Shoppers rendering
+        const shoppersBody = document.getElementById("shoppers-body");
+        if (shoppersBody) {
+            shoppersBody.innerHTML = shoppersToRender.map(s => `
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-850/30 transition-colors">
+                    <td class="p-4 font-bold text-sm text-slate-900 dark:text-white">${s.name}</td>
+                    <td class="p-4 text-xs text-slate-500 dark:text-slate-450">${s.email}</td>
+                    <td class="p-4">
+                        <span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase ${
+                            s.tier === 'VIP' ? 'bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300' :
+                            s.tier === 'Gold' ? 'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400' :
+                            'bg-blue-100 dark:bg-blue-950/50 text-blue-700 dark:text-blue-400'
+                        }">${s.tier === 'VIP' ? 'VIP Elite' : s.tier + ' Tier'}</span>
+                    </td>
+                    <td class="p-4 text-xs font-extrabold text-slate-800 dark:text-slate-200">$${s.ltv.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                    <td class="p-4 text-xs text-slate-500 dark:text-slate-450">${s.lastActive === 'recent' ? 'Within 2h' : s.lastActive === 'today' ? 'Today' : 'Over 1d ago'}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Top Performers rendering (Sorted by LTV descending)
+        const performersBody = document.getElementById("performers-body");
+        if (performersBody) {
+            const performersSorted = [...shoppersToRender].sort((a, b) => b.ltv - a.ltv);
+            performersBody.innerHTML = performersSorted.map((p, idx) => `
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-850/30 transition-colors">
+                    <td class="p-4 font-extrabold text-xs text-indigo-600 dark:text-indigo-400">#${idx + 1}</td>
+                    <td class="p-4 font-bold text-sm text-slate-900 dark:text-white">${p.name}</td>
+                    <td class="p-4 text-xs text-slate-500 dark:text-slate-450">${Math.max(1, Math.floor(p.ltv / 35))} orders</td>
+                    <td class="p-4 text-xs font-extrabold text-emerald-600 dark:text-emerald-400">$${p.ltv.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                    <td class="p-4">
+                        <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">${p.tier === 'VIP' ? 'VIP Elite' : p.tier + ' Tier'}</span>
+                    </td>
+                </tr>
+            `).join('');
+        }
+    }
+
+    // Filter Logic in sidebar
+    function toggleSegmentFilter(tier) {
+        const btn = document.getElementById(`badge-${tier.toLowerCase()}`);
+        const index = selectedSegments.indexOf(tier);
+        
+        if (index > -1) {
+            selectedSegments.splice(index, 1);
+            btn.classList.remove('bg-indigo-600', 'text-white', 'border-indigo-600');
+            btn.classList.add('border-outline-variant', 'dark:border-slate-800', 'text-slate-600', 'dark:text-slate-400');
+        } else {
+            selectedSegments.push(tier);
+            btn.classList.add('bg-indigo-600', 'text-white', 'border-indigo-600');
+            btn.classList.remove('border-outline-variant', 'dark:border-slate-800', 'text-slate-600', 'dark:text-slate-400');
+        }
+        applyLocalFilters();
+    }
+
+    function resetFilters() {
+        document.getElementById("filter-recency").value = "all";
+        document.getElementById("filter-frequency").value = "all";
+        selectedSegments = [];
+        
+        ['gold', 'silver', 'vip'].forEach(tier => {
+            const btn = document.getElementById(`badge-${tier}`);
+            if (btn) {
+                btn.classList.remove('bg-indigo-600', 'text-white', 'border-indigo-600');
+                btn.classList.add('border-outline-variant', 'dark:border-slate-800', 'text-slate-600', 'dark:text-slate-400');
+            }
+        });
+        
+        renderTables();
+        updateCounters();
+    }
+
+    function applyLocalFilters() {
+        const recency = document.getElementById("filter-recency").value;
+        const frequency = document.getElementById("filter-frequency").value;
+        
+        // Filter Shoppers
+        let filteredShoppers = shoppersData.filter(s => {
+            // Recency filter
+            if (recency !== 'all' && s.lastActive !== recency) return false;
+            
+            // Frequency filter (mocking volume based on LTV values)
+            if (frequency === 'high' && s.ltv < 3000) return false;
+            if (frequency === 'medium' && (s.ltv < 1000 || s.ltv >= 3000)) return false;
+            if (frequency === 'low' && s.ltv >= 1000) return false;
+            
+            // Segment filter
+            if (selectedSegments.length > 0 && !selectedSegments.includes(s.tier)) return false;
+            
+            return true;
+        });
+
+        renderTables(filteredShoppers);
+        
+        // Update display count
+        const currentCountText = document.getElementById("data-table-count");
+        if (currentCountText) {
+            if (currentTab === 'shoppers') {
+                currentCountText.textContent = `${filteredShoppers.length} Users Found`;
+            } else {
+                currentCountText.textContent = `${filteredShoppers.length} Performers Found`;
+            }
+        }
+    }
+
+    // Sync Data Action: Ingests a new Customer into Supabase
+    async function syncActiveData() {
+        showNotification("Syncing with database...", "sync", "indigo");
+        
+        try {
+            // Generate a random customer
+            const firstNames = ["Dianne", "Albert", "Eleanor", "Kathryn", "Devon", "Arlene", "Kiran", "Rishi", "Sonia", "Priya"];
+            const lastNames = ["Russell", "Flores", "Pena", "Murphy", "Lane", "McCoy", "Agrawal", "Sharma", "Varma", "Patel"];
+            const tiers = ["Gold", "Silver", "VIP"];
+            
+            const randomFirst = firstNames[Math.floor(Math.random() * firstNames.length)];
+            const randomLast = lastNames[Math.floor(Math.random() * lastNames.length)];
+            const randomEmail = `${randomFirst.toLowerCase()}.${randomLast.toLowerCase()}.${Math.floor(Math.random() * 1000)}@techcorp.com`;
+            const randomTier = tiers[Math.floor(Math.random() * tiers.length)];
+            
+            const res = await fetch(`${BACKEND_URL}/ingest/customer`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    firstName: randomFirst,
+                    lastName: randomLast,
+                    email: randomEmail,
+                    phone: "+91" + Math.floor(1000000000 + Math.random() * 9000000000),
+                    metadata: {
+                        loyaltyTier: randomTier
+                    }
+                })
+            });
+
+            if (!res.ok) throw new Error("Failed to sync new customer");
+
+            // Reload data from backend to refresh lists
+            await loadDataFromBackend(true);
+        } catch (err) {
+            console.error("Sync failed:", err);
+            showNotification("Sync failed. Running in offline demo mode.", "error", "red");
+            
+            // Offline fallback: only add customer with 0 LTV
+            shoppersData.unshift({
+                id: Math.random().toString(),
+                name: "Offline User",
+                email: "offline@example.com",
+                tier: "Gold",
+                ltv: 0,
+                lastActive: "recent"
+            });
+            applyLocalFilters();
+        }
+    }
+
+    // Top Bar Global Searching logic
+    function handleSearch() {
+        const query = document.getElementById("global-search").value.toLowerCase();
+        
+        if (query.trim() === "") {
+            applyLocalFilters();
+            return;
+        }
+
+        const filtered = shoppersData.filter(s => 
+            s.name.toLowerCase().includes(query) || 
+            s.email.toLowerCase().includes(query) || 
+            s.tier.toLowerCase().includes(query)
+        );
+        renderTables(filtered);
+    }
+
+    function createNewSegment() {
+        showNotification("Segment Filters Saved Successfully!", "save", "indigo");
+    }
+
+    function updateCounters() {
+        const currentCountText = document.getElementById("data-table-count");
+        if (currentCountText) {
+            if (currentTab === 'shoppers') {
+                currentCountText.textContent = `${shoppersData.length} Users Loaded`;
+            } else {
+                currentCountText.textContent = `${shoppersData.length} Performers Loaded`;
+            }
+        }
+    }
+
+    function showNotification(msg, iconName, colorName) {
+        const main = document.querySelector('main');
+        const toast = document.createElement('div');
+        toast.className = "fixed bottom-5 right-5 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-xs px-4 py-3 rounded-lg shadow-xl flex items-center gap-2 border border-slate-700/50 transition-all transform translate-y-10 z-50 opacity-0";
+        toast.innerHTML = `<span class="material-symbols-outlined text-${colorName}-500 font-bold">${iconName}</span> ${msg}`;
+        main.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.classList.remove('translate-y-10', 'opacity-0');
+        }, 100);
+
+        setTimeout(() => {
+            toast.classList.add('translate-y-10', 'opacity-0');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
+    function logoutUser() {
+        window.location.href = "authorization.html";
+    }
+</script>
+</body>
+</html>

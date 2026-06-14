@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Nexus CRM | Analytics</title>
+    <meta name="description" content="Nexus CRM Enterprise Edition - Track real-time sales revenue, CTR, delivery logs, and campaign performance." />
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <!-- Tailwind and Lucide -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-size: 22px;
+        }
+        /* Custom scrollbar for premium look */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.3);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(156, 163, 175, 0.5);
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-bright": "#f8fafc",
+                        "surface-container-highest": "#e2e8f0",
+                        "tertiary": "#a855f7",
+                        "surface": "#f8fafc",
+                        "tertiary-fixed-dim": "#f3e8ff",
+                        "outline-variant": "#cbd5e1",
+                        "surface-container": "#f1f5f9",
+                        "primary-container": "#0f172a",
+                        "primary": "#0f172a",
+                        "surface-dim": "#e2e8f0",
+                        "on-secondary-fixed-variant": "#3730a3",
+                        "on-tertiary-fixed-variant": "#6b21a8",
+                        "surface-container-low": "#f8fafc",
+                        "tertiary-container": "#581c87",
+                        "secondary-container": "#e0e7ff",
+                        "on-error-container": "#991b1b",
+                        "background": "#f8fafc",
+                        "secondary-fixed": "#e0e7ff",
+                        "inverse-surface": "#0f172a",
+                        "outline": "#64748b",
+                        "on-primary-fixed-variant": "#1e293b",
+                        "error": "#ef4444",
+                        "on-background": "#0f172a",
+                        "surface-tint": "#6366f1",
+                        "on-surface-variant": "#475569",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#faf5ff",
+                        "primary-fixed": "#f1f5f9",
+                        "primary-fixed-dim": "#cbd5e1",
+                        "on-secondary-container": "#312e81",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#f1f5f9",
+                        "secondary": "#4f46e5",
+                        "on-primary-container": "#1e293b",
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#0f172a",
+                        "surface-container-high": "#e2e8f0",
+                        "inverse-on-surface": "#f8fafc",
+                        "inverse-primary": "#c7d2fe",
+                        "secondary-fixed-dim": "#c7d2fe",
+                        "on-tertiary-container": "#d8b4fe",
+                        "on-tertiary-fixed": "#581c87",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed": "#312e81",
+                        "on-error": "#ffffff",
+                        "error-container": "#fee2e2",
+                        "on-primary-fixed": "#0f172a"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "container-max": "1440px",
+                        "sidebar-width": "260px",
+                        "margin-desktop": "32px",
+                        "gutter": "24px",
+                        "stack-lg": "24px",
+                        "stack-md": "16px",
+                        "margin-mobile": "16px",
+                        "stack-sm": "8px"
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background dark:bg-slate-950 text-on-background dark:text-slate-100 font-sans overflow-hidden transition-colors duration-300">
+<div class="flex h-screen w-full">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="w-[260px] h-screen sticky left-0 top-0 border-r border-outline-variant dark:border-slate-800 bg-surface-container-lowest dark:bg-slate-900 flex flex-col py-6 transition-all duration-300 z-50" id="sidebar">
+        <div class="px-6 mb-8 flex items-center justify-between">
+            <div>
+                <h1 class="text-xl font-extrabold tracking-tight text-primary dark:text-white flex items-center gap-2">
+                    <span class="material-symbols-outlined text-indigo-600 dark:text-indigo-400 font-bold" style="font-variation-settings: 'FILL' 1;">dataset</span>
+                    Nexus CRM
+                </h1>
+                <p class="text-on-surface-variant dark:text-slate-400 text-xs">Enterprise AI Edition</p>
+            </div>
+        </div>
+        
+        <nav class="flex-1 px-4 space-y-1">
+            <a href="index.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-800 transition-all font-medium text-sm text-left">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span>Command Center</span>
+            </a>
+            <a href="data_manager.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-800 transition-all font-medium text-sm text-left">
+                <span class="material-symbols-outlined">database</span>
+                <span>Data Manager</span>
+            </a>
+            <a href="analytics.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-secondary dark:text-indigo-400 border-l-4 border-secondary dark:border-indigo-400 bg-secondary-fixed/30 dark:bg-indigo-950/40 transition-all font-medium text-sm text-left">
+                <span class="material-symbols-outlined">analytics</span>
+                <span>Analytics</span>
+            </a>
+        </nav>
+        
+        <div class="mt-auto px-4 space-y-4">
+            <!-- Quick System Info -->
+            <div class="p-3 rounded-lg bg-surface-container dark:bg-slate-800/50 border border-outline-variant/30 dark:border-slate-800 text-xs space-y-1">
+                <div class="flex justify-between text-slate-500 dark:text-slate-400">
+                    <span>System Status:</span>
+                    <span class="text-green-500 dark:text-green-400 font-semibold flex items-center gap-1">
+                        <span class="h-2 w-2 rounded-full bg-green-500 animate-pulse"></span> Optimal
+                    </span>
+                </div>
+                <div class="flex justify-between text-slate-500 dark:text-slate-400">
+                    <span>AI Engine:</span>
+                    <span class="text-purple-500 dark:text-purple-400 font-semibold">Active (v2.4)</span>
+                </div>
+            </div>
+            
+            <!-- User Profile Card -->
+            <div class="flex items-center justify-between p-3 rounded-xl bg-surface-container dark:bg-slate-800 border border-outline-variant/30 dark:border-slate-700">
+                <div class="flex items-center gap-3 min-w-0 flex-1">
+                    <div id="sidebar-avatar-container" class="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center overflow-hidden border border-indigo-200 dark:border-indigo-800 shrink-0">
+                        <img id="sidebar-user-img" alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0F9KokNuSG9A1rg87ekec1ujoS-3AJxGMVjpsdnnEtXyLC3FzLSEyPkGNIJ1nhmYY-JBLvwN55DfUIoOy8QBzMBBoDo-Gu-UAJQN7gXz8taasipek2f-yEvwty5ksuaKD6EtpuH-yRDzx5z7zJAf-CK3ZUINUS2GbbOyMThGBB1Tu_HE1ds_t5EdfajEHvwn83PrVoNw4fWN7WpI4aVUGl3vngbf0rxpGqqqeKx07fqWp8_AHksdNfFc3Bdta6SNLt4UcXPAU6EEC"/>
+                        <span id="sidebar-user-initials" class="text-xs font-bold text-indigo-750 dark:text-indigo-300 uppercase hidden">JD</span>
+                    </div>
+                    <div class="min-w-0">
+                        <p id="sidebar-user-name" class="text-xs font-bold text-primary dark:text-white truncate">Jane Doe</p>
+                        <p id="sidebar-user-email" class="text-[10px] text-outline dark:text-slate-400 truncate">Lead Sales Admin</p>
+                    </div>
+                </div>
+                <button onclick="logoutUser()" class="hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-555 hover:text-red-500 dark:text-slate-400 dark:hover:text-red-400 p-1.5 rounded-lg transition-colors flex items-center justify-center shrink-0" title="Sign Out">
+                    <span class="material-symbols-outlined text-[18px]">logout</span>
+                </button>
+            </div>
+        </div>
+    </aside>
+    
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col min-w-0 bg-surface-bright dark:bg-slate-950 overflow-hidden">
+        
+        <!-- Top Application Bar -->
+        <header class="flex justify-between items-center h-16 px-8 w-full bg-surface-container-lowest dark:bg-slate-900 shadow-sm border-b border-outline-variant dark:border-slate-800 sticky top-0 z-40 transition-all duration-300">
+            <div class="flex items-center gap-4 flex-1">
+                <!-- Search is not main focus on Analytics page, so placeholder shown -->
+                <div class="relative w-96 max-w-full">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline dark:text-slate-400">search</span>
+                    <input id="global-search" class="w-full bg-surface-container dark:bg-slate-800 border-none rounded-full py-2 pl-10 pr-4 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:ring-2 focus:ring-secondary focus:outline-none transition-all" placeholder="Search analytics..." type="text" disabled/>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <!-- Dark Mode Toggle -->
+                <button onclick="toggleDarkMode()" class="hover:bg-surface-container dark:hover:bg-slate-800 rounded-full p-2 transition-all text-on-surface-variant dark:text-slate-300 flex items-center justify-center" title="Toggle Theme">
+                    <span id="theme-icon" class="material-symbols-outlined">dark_mode</span>
+                </button>
+                
+                <button class="hover:bg-surface-container dark:hover:bg-slate-800 rounded-full p-2 transition-all text-on-surface-variant dark:text-slate-300 flex items-center justify-center relative">
+                    <span class="material-symbols-outlined">notifications</span>
+                    <span class="absolute top-1 right-1 h-2.5 w-2.5 rounded-full bg-red-500 border-2 border-white dark:border-slate-900 animate-pulse"></span>
+                </button>
+                
+                <div class="h-6 w-[1px] bg-outline-variant dark:bg-slate-800 mx-1"></div>
+                <span id="header-view-title" class="font-semibold text-sm text-primary dark:text-white px-2">Analytics</span>
+            </div>
+        </header>
+        
+        <!-- Scrollable Content Canvas -->
+        <div class="flex-1 overflow-y-auto p-8" id="content-canvas">
+            
+            <!-- VIEW: ANALYTICS -->
+            <section class="space-y-8 animate-in fade-in duration-300 block">
+                <!-- Stat Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-outline-variant dark:border-slate-800 shadow-sm relative overflow-hidden transition-all duration-300 hover:-translate-y-1">
+                        <div class="absolute right-0 top-0 p-4 opacity-5 text-indigo-600 dark:text-indigo-400">
+                            <span class="material-symbols-outlined text-[64px]">send</span>
+                        </div>
+                        <div class="flex items-center justify-between mb-4">
+                            <p class="text-xs font-bold text-slate-450 dark:text-slate-400 uppercase tracking-wider">Total Outbox Sent</p>
+                            <span class="material-symbols-outlined text-indigo-600 dark:text-indigo-400">send</span>
+                        </div>
+                        <p id="stat-sent" class="text-3xl font-extrabold text-slate-900 dark:text-white leading-tight">0</p>
+                        <p class="text-[10px] text-green-600 dark:text-green-400 font-bold flex items-center gap-1 mt-2">
+                            <span class="material-symbols-outlined text-xs">trending_up</span> Live stats sync
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-outline-variant dark:border-slate-800 shadow-sm relative overflow-hidden transition-all duration-300 hover:-translate-y-1">
+                        <div class="absolute right-0 top-0 p-4 opacity-5 text-green-600">
+                            <span class="material-symbols-outlined text-[64px]">done_all</span>
+                        </div>
+                        <div class="flex items-center justify-between mb-4">
+                            <p class="text-xs font-bold text-slate-450 dark:text-slate-400 uppercase tracking-wider">Delivery Success</p>
+                            <span class="material-symbols-outlined text-green-600">done_all</span>
+                        </div>
+                        <p id="stat-delivery" class="text-3xl font-extrabold text-slate-900 dark:text-white leading-tight">99.28%</p>
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 font-bold flex items-center gap-1 mt-2">
+                            <span class="material-symbols-outlined text-xs text-green-600">check_circle</span> Industry grade standard
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-outline-variant dark:border-slate-800 shadow-sm relative overflow-hidden transition-all duration-300 hover:-translate-y-1">
+                        <div class="absolute right-0 top-0 p-4 opacity-5 text-amber-500">
+                            <span class="material-symbols-outlined text-[64px]">ads_click</span>
+                        </div>
+                        <div class="flex items-center justify-between mb-4">
+                            <p class="text-xs font-bold text-slate-450 dark:text-slate-400 uppercase tracking-wider">Click-Through Rate</p>
+                            <span class="material-symbols-outlined text-amber-500">ads_click</span>
+                        </div>
+                        <p id="stat-ctr" class="text-3xl font-extrabold text-slate-900 dark:text-white leading-tight">8.42%</p>
+                        <p class="text-[10px] text-red-500 dark:text-red-400 font-bold flex items-center gap-1 mt-2">
+                            <span class="material-symbols-outlined text-xs">trending_down</span> Campaign engagement rate
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-outline-variant dark:border-slate-800 shadow-sm relative overflow-hidden transition-all duration-300 hover:-translate-y-1">
+                        <div class="absolute right-0 top-0 p-4 opacity-5 text-purple-600 dark:text-purple-400">
+                            <span class="material-symbols-outlined text-[64px]">payments</span>
+                        </div>
+                        <div class="flex items-center justify-between mb-4">
+                            <p class="text-xs font-bold text-slate-450 dark:text-slate-400 uppercase tracking-wider">Total Sales Revenue</p>
+                            <span class="material-symbols-outlined text-purple-600 dark:text-purple-400">payments</span>
+                        </div>
+                        <p id="stat-revenue" class="text-3xl font-extrabold text-slate-900 dark:text-white leading-tight">$0.00</p>
+                        <p class="text-[10px] text-green-600 dark:text-green-400 font-bold flex items-center gap-1 mt-2">
+                            <span class="material-symbols-outlined text-xs">trending_up</span> Sales funnel attribution
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Funnel & Campaigns Details -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Funnel Section -->
+                    <div class="lg:col-span-1 bg-white dark:bg-slate-900 rounded-xl border border-outline-variant dark:border-slate-800 p-6 shadow-sm">
+                        <h3 class="font-bold text-base text-slate-800 dark:text-slate-100 mb-6 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-indigo-600">insights</span> Campaign Conversion Funnel
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs font-semibold">
+                                    <span class="text-slate-500 dark:text-slate-400">SENT AUDIENCE</span>
+                                    <span id="funnel-sent-val" class="text-slate-800 dark:text-slate-200">100%</span>
+                                </div>
+                                <div class="h-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                                    <div id="funnel-sent-bar" class="h-full bg-slate-900 dark:bg-slate-100 w-full rounded-full transition-all duration-1000"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs font-semibold">
+                                    <span class="text-slate-500 dark:text-slate-400">DELIVERED</span>
+                                    <span id="funnel-delivered-val" class="text-slate-800 dark:text-slate-200">99.2%</span>
+                                </div>
+                                <div class="h-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                                    <div id="funnel-delivered-bar" class="h-full bg-indigo-500 dark:bg-indigo-600 w-[99.2%] rounded-full transition-all duration-1000"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs font-semibold">
+                                    <span class="text-slate-500 dark:text-slate-400">OPEN & READ</span>
+                                    <span id="funnel-read-val" class="text-slate-800 dark:text-slate-200">42.5%</span>
+                                </div>
+                                <div class="h-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                                    <div id="funnel-read-bar" class="h-full bg-indigo-500 dark:bg-indigo-600 w-[42.5%] rounded-full transition-all duration-1000"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs font-semibold">
+                                    <span class="text-slate-500 dark:text-slate-400">CLICKED LINK</span>
+                                    <span id="funnel-clicked-val" class="text-slate-800 dark:text-slate-200">8.42%</span>
+                                </div>
+                                <div class="h-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                                    <div id="funnel-clicked-bar" class="h-full bg-indigo-550 dark:bg-indigo-650 w-[8.42%] rounded-full transition-all duration-1000"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs font-semibold">
+                                    <span class="text-slate-500 dark:text-slate-400">CONVERTED ORDER</span>
+                                    <span id="funnel-converted-val" class="text-slate-800 dark:text-slate-200">2.1%</span>
+                                </div>
+                                <div class="h-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                                    <div id="funnel-converted-bar" class="h-full bg-purple-500 dark:bg-purple-600 w-[2.1%] rounded-full transition-all duration-1000"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Campaigns Performance -->
+                    <div class="lg:col-span-2 bg-white dark:bg-slate-900 rounded-xl border border-outline-variant dark:border-slate-800 overflow-hidden shadow-sm">
+                        <div class="p-6 border-b border-outline-variant dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50">
+                            <h3 class="font-bold text-base text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-indigo-600">campaign</span> Recent Intelligent Campaigns
+                            </h3>
+                            <a href="index.html" class="text-xs text-indigo-600 dark:text-indigo-400 hover:underline font-semibold flex items-center gap-1">
+                                <span class="material-symbols-outlined text-xs">add</span> New
+                            </a>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead class="bg-slate-50 dark:bg-slate-850/50">
+                                    <tr class="border-b border-outline-variant dark:border-slate-800">
+                                        <th class="p-4 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Campaign Details</th>
+                                        <th class="p-4 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Delivery Status</th>
+                                        <th class="p-4 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Launch Date</th>
+                                        <th class="p-4 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Cohort Perform</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="campaign-table" class="divide-y divide-outline-variant/30 dark:divide-slate-800">
+                                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-850/30 transition-colors">
+                                        <td colspan="4" class="p-8 text-center text-xs text-slate-500">Loading campaigns stats...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+
+<!-- Scripts for Interactivity & Live API Connection -->
+<script src="config.js"></script>
+<script>
+    // Configuration
+    const BACKEND_URL = window.NEXUS_CONFIG?.BACKEND_URL ?? "http://localhost:3001/api/v1";
+
+    // State Stores
+    let ordersData = [];
+    let campaignsData = [];
+
+    // Dark Mode Toggle logic
+    function toggleDarkMode() {
+        const html = document.documentElement;
+        const icon = document.getElementById("theme-icon");
+        if (html.classList.contains("light")) {
+            html.classList.remove("light");
+            html.classList.add("dark");
+            icon.textContent = "light_mode";
+            localStorage.setItem('theme', 'dark');
+        } else {
+            html.classList.remove("dark");
+            html.classList.add("light");
+            icon.textContent = "dark_mode";
+            localStorage.setItem('theme', 'light');
+        }
+    }
+
+    // Initialize application & load live data from database
+    document.addEventListener("DOMContentLoaded", async () => {
+        // Load dynamic theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.remove('light');
+            document.documentElement.classList.add('dark');
+            document.getElementById("theme-icon").textContent = "light_mode";
+        }
+
+        // Load dynamic session state
+        const savedName = localStorage.getItem('crm_user_name');
+        const savedEmail = localStorage.getItem('crm_user_email');
+        
+        if (savedName) {
+            document.getElementById('sidebar-user-name').textContent = savedName;
+            if (savedName.toLowerCase() !== "jane doe") {
+                document.getElementById('sidebar-user-img').classList.add('hidden');
+                const initialsEl = document.getElementById('sidebar-user-initials');
+                initialsEl.classList.remove('hidden');
+                
+                const parts = savedName.trim().split(/\s+/);
+                let initials = "";
+                if (parts.length > 0 && parts[0]) initials += parts[0][0];
+                if (parts.length > 1 && parts[1]) initials += parts[1][0];
+                initialsEl.textContent = initials.substring(0, 2).toUpperCase() || "?";
+                document.getElementById('sidebar-avatar-container').classList.add('bg-gradient-to-br', 'from-indigo-100', 'to-indigo-200', 'dark:from-slate-800', 'dark:to-slate-700');
+            }
+        }
+        if (savedEmail) {
+            document.getElementById('sidebar-user-email').textContent = savedEmail;
+        }
+
+        // Fetch real data from the backend
+        await loadDataFromBackend();
+    });
+
+    // Helper to fetch with timeout to prevent page hang
+    async function fetchWithTimeout(resource, options = {}) {
+        const { timeout = 3000 } = options;
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), timeout);
+        try {
+            const response = await fetch(resource, {
+                ...options,
+                signal: controller.signal
+            });
+            clearTimeout(id);
+            return response;
+        } catch (error) {
+            clearTimeout(id);
+            throw error;
+        }
+    }
+
+    // Fetch live Orders and Campaigns from Supabase via backend
+    async function loadDataFromBackend() {
+        try {
+            // 1. Fetch Orders
+            const ordRes = await fetchWithTimeout(`${BACKEND_URL}/ingest/orders`);
+            if (ordRes.ok) {
+                const ordData = await ordRes.json();
+                if (ordData.orders && ordData.orders.length > 0) {
+                    ordersData = ordData.orders.map(o => ({
+                        id: `#ORD-${o.id.slice(0, 4).toUpperCase()}`,
+                        value: parseFloat(o.totalAmount),
+                        items: (o.items && Array.isArray(o.items)) ? o.items.length : 1,
+                        date: new Date(o.createdAt).toLocaleDateString(),
+                        status: "Paid"
+                    }));
+                }
+            }
+
+            // 2. Fetch Campaigns
+            const campRes = await fetchWithTimeout(`${BACKEND_URL}/campaigns`);
+            if (campRes.ok) {
+                const campData = await campRes.json();
+                if (campData.campaigns) {
+                    campaignsData = campData.campaigns.map(c => {
+                        const total = c.totalRecipients || 0;
+                        const clickCount = c.stats.CLICKED || 0;
+                        const readCount = c.stats.READ || 0;
+                        const openedCount = c.stats.OPENED || 0;
+                        const deliveredCount = c.stats.DELIVERED || 0;
+                        const sentCount = c.stats.SENT || 0;
+                        const convertedCount = c.stats.CONVERTED || 0;
+                        
+                        const completedCount = convertedCount + clickCount + readCount + openedCount + deliveredCount + sentCount;
+                        let pct = total > 0 ? Math.round((completedCount / total) * 100) : 0;
+                        if (c.status === 'COMPLETED') pct = 100;
+                        
+                        return {
+                            id: c.id,
+                            title: c.goalDescription,
+                            channel: c.targetChannel,
+                            status: c.status === 'COMPLETED' ? 'Completed' : c.status === 'SENDING' ? 'Active' : 'Draft',
+                            date: new Date(c.createdAt).toLocaleDateString(),
+                            progress: pct,
+                            stats: c.stats || {},
+                            totalRecipients: total
+                        };
+                    });
+                }
+            }
+
+            renderCampaignsList();
+            updateAnalytics();
+        } catch (err) {
+            console.warn("Backend server offline, running in offline demo mode.", err);
+            renderCampaignsList();
+            updateAnalytics();
+        }
+    }
+
+    // Dynamic Analytics & Funnel Calculations from real database stats
+    function updateAnalytics() {
+        // 1. Total Sales Revenue
+        const totalRevenue = ordersData.reduce((sum, o) => sum + o.value, 0);
+        const revenueEl = document.getElementById("stat-revenue");
+        if (revenueEl) {
+            revenueEl.textContent = `$${totalRevenue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        }
+
+        // 2. Aggregate Campaign Stats
+        let grandTotal = 0;
+        let grandSent = 0;
+        let grandDelivered = 0;
+        let grandRead = 0;
+        let grandClicked = 0;
+        let grandConverted = 0;
+
+        campaignsData.forEach(c => {
+            const s = c.stats || {};
+            const total = c.totalRecipients || 0;
+            grandTotal += total;
+            
+            const converted = s.CONVERTED || 0;
+            const clicked = (s.CLICKED || 0) + converted;
+            const read = (s.READ || 0) + clicked;
+            const opened = (s.OPENED || 0) + read;
+            const delivered = (s.DELIVERED || 0) + opened;
+            const sent = (s.SENT || 0) + delivered;
+
+            grandConverted += converted;
+            grandClicked += clicked;
+            grandRead += read;
+            grandDelivered += delivered;
+            grandSent += sent;
+        });
+
+        // Fallback default values if no campaigns have been launched yet
+        if (grandTotal === 0) {
+            grandTotal = 1000;
+            grandSent = 1000;
+            grandDelivered = 992;
+            grandRead = 425;
+            grandClicked = 84;
+            grandConverted = 21;
+        }
+
+        const deliveryRate = grandSent > 0 ? (grandDelivered / grandSent) * 100 : 99.28;
+        const clickRate = grandSent > 0 ? (grandClicked / grandSent) * 100 : 8.42;
+
+        // Update Stat Cards
+        const sentEl = document.getElementById("stat-sent");
+        if (sentEl) sentEl.textContent = grandSent.toLocaleString();
+
+        const deliveryEl = document.getElementById("stat-delivery");
+        if (deliveryEl) deliveryEl.textContent = `${deliveryRate.toFixed(2)}%`;
+
+        const ctrEl = document.getElementById("stat-ctr");
+        if (ctrEl) ctrEl.textContent = `${clickRate.toFixed(2)}%`;
+
+        // Helper to update Conversion Funnel Row values and progress bars
+        const updateFunnelRow = (idPrefix, val, pct) => {
+            const valEl = document.getElementById(`${idPrefix}-val`);
+            const barEl = document.getElementById(`${idPrefix}-bar`);
+            if (valEl) valEl.textContent = `${pct.toFixed(1)}% (${val})`;
+            if (barEl) barEl.style.width = `${pct}%`;
+        };
+
+        const sentPct = 100;
+        const delPct = grandSent > 0 ? (grandDelivered / grandSent) * 100 : 99.2;
+        const readPct = grandSent > 0 ? (grandRead / grandSent) * 100 : 42.5;
+        const clickPct = grandSent > 0 ? (grandClicked / grandSent) * 100 : 8.42;
+        const convPct = grandSent > 0 ? (grandConverted / grandSent) * 100 : 2.1;
+
+        updateFunnelRow("funnel-sent", grandSent, sentPct);
+        updateFunnelRow("funnel-delivered", grandDelivered, delPct);
+        updateFunnelRow("funnel-read", grandRead, readPct);
+        updateFunnelRow("funnel-clicked", grandClicked, clickPct);
+        updateFunnelRow("funnel-converted", grandConverted, convPct);
+    }
+
+    // Render campaign rows dynamically from database
+    function renderCampaignsList() {
+        const campaignTable = document.getElementById("campaign-table");
+        if (!campaignTable) return;
+        
+        if (campaignsData.length === 0) {
+            campaignTable.innerHTML = `
+                <tr>
+                    <td colspan="4" class="p-8 text-center text-xs text-slate-500">No campaigns launched yet.</td>
+                </tr>
+            `;
+            return;
+        }
+
+        campaignTable.innerHTML = campaignsData.map(c => {
+            let badgeClass = "bg-green-100 dark:bg-green-950/50 text-green-700 dark:text-green-400 border border-green-200/50 dark:border-green-900/30";
+            if (c.status === 'Completed') {
+                badgeClass = "bg-slate-100 dark:bg-slate-800 text-slate-550 dark:text-slate-400 border border-outline-variant/30 dark:border-slate-700";
+            } else if (c.status === 'Draft') {
+                badgeClass = "bg-amber-100 dark:bg-amber-950/50 text-amber-700 dark:text-amber-400 border border-amber-200/50 dark:border-amber-900/30";
+            }
+            
+            return `
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-850/30 transition-colors" data-campaign-id="${c.id}">
+                    <td class="p-4">
+                        <p class="font-bold text-sm text-slate-950 dark:text-white">${c.title}</p>
+                        <p class="text-[10px] text-slate-400 dark:text-slate-500">Channel: ${c.channel}</p>
+                    </td>
+                    <td class="p-4">
+                        <span class="${badgeClass} px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">${c.status}</span>
+                    </td>
+                    <td class="p-4 text-xs text-slate-500 dark:text-slate-400 font-semibold">${c.date}</td>
+                    <td class="p-4">
+                        <div class="flex items-center gap-2">
+                            <div class="w-24 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                                <div class="h-full bg-green-500 dark:bg-green-600 rounded-full transition-all duration-500" style="width: ${c.progress}%"></div>
+                            </div>
+                            <span class="text-xs font-bold text-slate-700 dark:text-slate-350">${c.progress}%</span>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    function showNotification(msg, iconName, colorName) {
+        const main = document.querySelector('main');
+        const toast = document.createElement('div');
+        toast.className = "fixed bottom-5 right-5 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-xs px-4 py-3 rounded-lg shadow-xl flex items-center gap-2 border border-slate-700/50 transition-all transform translate-y-10 z-50 opacity-0";
+        toast.innerHTML = `<span class="material-symbols-outlined text-${colorName}-500 font-bold">${iconName}</span> ${msg}`;
+        main.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.classList.remove('translate-y-10', 'opacity-0');
+        }, 100);
+
+        setTimeout(() => {
+            toast.classList.add('translate-y-10', 'opacity-0');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
+    function logoutUser() {
+        window.location.href = "authorization.html";
+    }
+</script>
+</body>
+</html>
