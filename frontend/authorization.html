@@ -171,7 +171,7 @@
                 <div>
                     <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5" for="password">Password</label>
                     <div class="relative">
-                        <input class="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-850 border border-outline-variant/60 dark:border-slate-800 rounded-lg text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 input-focus-ring transition-all" id="password" name="password" placeholder="••••••••" required="" type="password" value="password"/>
+                        <input class="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-850 border border-outline-variant/60 dark:border-slate-800 rounded-lg text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 input-focus-ring transition-all" id="password" name="password" placeholder="••••••••" required="" type="password"/>
                         <button onclick="togglePasswordVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-outline dark:text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors flex items-center justify-center" type="button" title="Show/Hide Password">
                             <span id="password-toggle-icon" class="material-symbols-outlined">visibility</span>
                         </button>
@@ -257,32 +257,52 @@
             }
         }
 
-        // Handle Form Submission with smooth transition/validation
+        // ── Credentials (frontend-only demo guard) ──────────────────────────
+        const VALID_USERNAME = 'admin';
+        const VALID_PASSWORD = 'nexus2026';
+
+        // Handle Form Submission with password validation
         function handleLogin(event) {
             event.preventDefault();
-            
-            const username = document.getElementById('username').value;
-            const email = document.getElementById('email').value;
-            
-            // Save user details to localStorage so index.html can load them dynamically!
+
+            const username = document.getElementById('username').value.trim();
+            const email    = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+
+            // ── Password check ───────────────────────────────────────────────
+            if (username !== VALID_USERNAME || password !== VALID_PASSWORD) {
+                showError('Invalid username or password. Hint: admin / nexus2026');
+                return;
+            }
+
+            // Save user details + session flag
             localStorage.setItem('crm_user_name', username);
             localStorage.setItem('crm_user_email', email);
-            
-            // Premium notification toast
+            localStorage.setItem('crm_logged_in', 'true');
+
+            // Success toast
             const body = document.body;
             const toast = document.createElement('div');
             toast.className = "fixed bottom-5 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-xs px-4 py-3 rounded-lg shadow-xl flex items-center gap-2 border border-slate-700/50 transition-all transform translate-y-10 z-50 opacity-0";
             toast.innerHTML = `<span class="material-symbols-outlined text-green-500 font-bold">check_circle</span> Welcome ${username}! Access granted.`;
             body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.classList.remove('translate-y-10', 'opacity-0');
-            }, 100);
 
-            // Redirect after delay
-            setTimeout(() => {
-                window.location.href = "index.html";
-            }, 1200);
+            setTimeout(() => { toast.classList.remove('translate-y-10', 'opacity-0'); }, 100);
+            setTimeout(() => { window.location.href = 'index.html'; }, 1200);
+        }
+
+        // Show an inline error message under the password field
+        function showError(msg) {
+            let errEl = document.getElementById('login-error');
+            if (!errEl) {
+                errEl = document.createElement('p');
+                errEl.id = 'login-error';
+                errEl.className = 'text-xs text-red-500 text-center mt-1 font-medium';
+                document.getElementById('password').parentElement.parentElement.appendChild(errEl);
+            }
+            errEl.textContent = msg;
+            document.getElementById('password').value = '';
+            document.getElementById('password').classList.add('border-red-400');
         }
 
         // Dynamically update profile display from inputs

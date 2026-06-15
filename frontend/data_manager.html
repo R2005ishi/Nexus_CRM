@@ -14,6 +14,13 @@
     <!-- Tailwind and Lucide -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Auth Guard: redirect to login if not authenticated -->
+    <script>
+        if (!localStorage.getItem('crm_logged_in')) {
+            window.location.replace('authorization.html');
+        }
+    </script>
     
     <style>
         .material-symbols-outlined {
