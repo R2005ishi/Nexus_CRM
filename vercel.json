@@ -1,0 +1,17 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/(css|js|images|assets)/:path*",
+      "destination": "/frontend/$1/:path*"
+    },
+    {
+      "source": "/config.js",
+      "destination": "/frontend/config.js"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/frontend/$1"
+    }
+  ]
+}

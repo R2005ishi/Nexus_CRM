@@ -36,8 +36,8 @@ router.post(
       const campaign = await tx.campaign.create({
         data: {
           goalDescription: goal,
-          targetChannel: channel,
-          status: 'SENDING',
+          targetChannel:   channel,
+          status:          'SENDING',
         },
       });
 

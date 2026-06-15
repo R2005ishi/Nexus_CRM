@@ -11,6 +11,8 @@
  * ──────────────────────────────────────────────────────────────────
  */
 window.NEXUS_CONFIG = {
-  // Backend REST API base URL — change this when deploying
-  BACKEND_URL: "http://localhost:3001/api/v1",
+  // Backend REST API base URL — resolved dynamically depending on environment
+  BACKEND_URL: (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+    ? "http://localhost:3001/api/v1"
+    : (localStorage.getItem("NEXUS_BACKEND_URL") || "https://nexus-crm-backend.onrender.com/api/v1"),
 };

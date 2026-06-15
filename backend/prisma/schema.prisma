@@ -57,6 +57,7 @@ model Order {
 model Campaign {
   id              String         @id @default(uuid())
   goalDescription String
+  messageCopy     String?        // AI-generated campaign message copy
   targetChannel   String
   status          CampaignStatus @default(DRAFT)
   createdAt       DateTime       @default(now())
