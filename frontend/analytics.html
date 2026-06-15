@@ -325,25 +325,7 @@
                                 </div>
                             </div>
                             
-                            <div class="space-y-1">
-                                <div class="flex justify-between text-xs font-semibold">
-                                    <span class="text-slate-500 dark:text-slate-400">CLICKED LINK</span>
-                                    <span id="funnel-clicked-val" class="text-slate-800 dark:text-slate-200">8.42%</span>
-                                </div>
-                                <div class="h-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                                    <div id="funnel-clicked-bar" class="h-full bg-indigo-550 dark:bg-indigo-650 w-[8.42%] rounded-full transition-all duration-1000"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="space-y-1">
-                                <div class="flex justify-between text-xs font-semibold">
-                                    <span class="text-slate-500 dark:text-slate-400">CONVERTED ORDER</span>
-                                    <span id="funnel-converted-val" class="text-slate-800 dark:text-slate-200">2.1%</span>
-                                </div>
-                                <div class="h-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                                    <div id="funnel-converted-bar" class="h-full bg-purple-500 dark:bg-purple-600 w-[2.1%] rounded-full transition-all duration-1000"></div>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                     
@@ -592,14 +574,9 @@
         const sentPct = 100;
         const delPct = grandSent > 0 ? (grandDelivered / grandSent) * 100 : 99.2;
         const readPct = grandSent > 0 ? (grandRead / grandSent) * 100 : 42.5;
-        const clickPct = grandSent > 0 ? (grandClicked / grandSent) * 100 : 8.42;
-        const convPct = grandSent > 0 ? (grandConverted / grandSent) * 100 : 2.1;
-
         updateFunnelRow("funnel-sent", grandSent, sentPct);
         updateFunnelRow("funnel-delivered", grandDelivered, delPct);
         updateFunnelRow("funnel-read", grandRead, readPct);
-        updateFunnelRow("funnel-clicked", grandClicked, clickPct);
-        updateFunnelRow("funnel-converted", grandConverted, convPct);
     }
 
     // Render campaign rows dynamically from database
