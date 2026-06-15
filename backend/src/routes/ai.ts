@@ -61,7 +61,7 @@ router.post('/chat', async (req: Request, res: Response): Promise<void> => {
     }
 
     if (!stream) {
-      const data = await response.json();
+      const data = await response.json() as any;
       const content = data.choices?.[0]?.message?.content || '';
       res.json({
         message: {
