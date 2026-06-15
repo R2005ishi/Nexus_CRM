@@ -16,3 +16,18 @@ window.NEXUS_CONFIG = {
     ? "http://localhost:3001/api/v1"
     : (localStorage.getItem("NEXUS_BACKEND_URL") || "https://nexus-crm-backend.onrender.com/api/v1"),
 };
+
+// Responsive mobile sidebar toggle utility
+window.toggleSidebar = function() {
+  const sidebar = document.getElementById('sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  if (sidebar && backdrop) {
+    if (sidebar.classList.contains('-translate-x-full')) {
+      sidebar.classList.remove('-translate-x-full');
+      backdrop.classList.remove('hidden');
+    } else {
+      sidebar.classList.add('-translate-x-full');
+      backdrop.classList.add('hidden');
+    }
+  }
+};
